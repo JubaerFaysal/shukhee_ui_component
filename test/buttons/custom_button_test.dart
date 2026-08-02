@@ -178,6 +178,89 @@ void main() {
       expect(find.text('Submit'), findsNothing);
     });
 
+    testWidgets('keeps the button colors while loading', (
+      WidgetTester tester,
+    ) async {
+      await tester.pumpWidget(
+        wrap(
+          CustomButton(
+            onTap: () {},
+            isLoading: true,
+            backgroundColor: Colors.green,
+            foregroundColor: Colors.white,
+            elevation: 4,
+            centerWidget: const Text('Submit'),
+          ),
+        ),
+      );
+
+      // Loading suppresses taps, but must not look disabled.
+      expect(materialOf(tester).color, Colors.green);
+      expect(materialOf(tester).elevation, 4);
+      expect(
+        tester
+            .widget<CircularProgressIndicator>(
+              find.byType(CircularProgressIndicator),
+            )
+            .valueColor
+            ?.value,
+        Colors.white,
+      );
+    });
+
+    testWidgets('honours the loading color overrides', (
+      WidgetTester tester,
+    ) async {
+      await tester.pumpWidget(
+        wrap(
+          CustomButton(
+            onTap: () {},
+            isLoading: true,
+            backgroundColor: Colors.green,
+            foregroundColor: Colors.white,
+            loadingBackgroundColor: Colors.orange,
+            loadingForegroundColor: Colors.black,
+            centerWidget: const Text('Submit'),
+          ),
+        ),
+      );
+
+      expect(materialOf(tester).color, Colors.orange);
+      expect(
+        tester
+            .widget<CircularProgressIndicator>(
+              find.byType(CircularProgressIndicator),
+            )
+            .valueColor
+            ?.value,
+        Colors.black,
+      );
+    });
+
+    testWidgets('tints a custom loading widget with the loading foreground', (
+      WidgetTester tester,
+    ) async {
+      await tester.pumpWidget(
+        wrap(
+          CustomButton(
+            onTap: () {},
+            isLoading: true,
+            loadingForegroundColor: Colors.black,
+            loadingWidget: const Text('Please wait'),
+            centerWidget: const Text('Submit'),
+          ),
+        ),
+      );
+
+      final RichText label = tester.widget<RichText>(
+        find.descendant(
+          of: find.text('Please wait'),
+          matching: find.byType(RichText),
+        ),
+      );
+      expect(label.text.style?.color, Colors.black);
+    });
+
     testWidgets('renders a custom loading widget', (WidgetTester tester) async {
       await tester.pumpWidget(
         wrap(
@@ -263,6 +346,68 @@ void main() {
           (materialOf(tester).shape! as RoundedRectangleBorder).side;
       expect(side.color, Colors.red);
       expect(side.width, 3);
+    });
+
+    testWidgets('honours the disabled color overrides', (
+      WidgetTester tester,
+    ) async {
+      await tester.pumpWidget(
+        wrap(
+          CustomButton(
+            onTap: () {},
+            isEnabled: false,
+            backgroundColor: Colors.green,
+            foregroundColor: Colors.white,
+            disabledBackgroundColor: Colors.brown,
+            disabledForegroundColor: Colors.yellow,
+            centerWidget: const Text('Go'),
+          ),
+        ),
+      );
+
+      final RichText label = tester.widget<RichText>(
+        find.descendant(of: find.text('Go'), matching: find.byType(RichText)),
+      );
+      expect(materialOf(tester).color, Colors.brown);
+      expect(label.text.style?.color, Colors.yellow);
+    });
+
+    testWidgets('a loading button ignores the disabled overrides', (
+      WidgetTester tester,
+    ) async {
+      await tester.pumpWidget(
+        wrap(
+          CustomButton(
+            onTap: () {},
+            isLoading: true,
+            backgroundColor: Colors.green,
+            disabledBackgroundColor: Colors.brown,
+            disabledForegroundColor: Colors.yellow,
+            centerWidget: const Text('Go'),
+          ),
+        ),
+      );
+
+      expect(materialOf(tester).color, Colors.green);
+    });
+
+    testWidgets('a disabled button ignores the loading overrides', (
+      WidgetTester tester,
+    ) async {
+      await tester.pumpWidget(
+        wrap(
+          CustomButton(
+            onTap: () {},
+            isEnabled: false,
+            isLoading: true,
+            loadingBackgroundColor: Colors.orange,
+            disabledBackgroundColor: Colors.brown,
+            centerWidget: const Text('Go'),
+          ),
+        ),
+      );
+
+      expect(materialOf(tester).color, Colors.brown);
     });
 
     testWidgets('flattens the elevation while disabled', (

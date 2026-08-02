@@ -8,9 +8,11 @@ import 'package:flutter/material.dart';
 /// from [ThemeData], so the button follows the ambient light or dark theme
 /// unless it is explicitly overridden.
 ///
-/// The button is disabled when [isEnabled] is `false`, when [isLoading] is
-/// `true`, or when [onTap] is `null`. While disabled it stops responding to
-/// taps and repaints with the Material disabled colors.
+/// The button stops responding to taps when [isEnabled] is `false`, when
+/// [isLoading] is `true`, or when [onTap] is `null`. Only the first and the
+/// last of those repaint it with the disabled colors — a loading button keeps
+/// its own colors unless [loadingBackgroundColor] or [loadingForegroundColor]
+/// is given.
 ///
 /// ```dart
 /// CustomButton(
@@ -49,6 +51,10 @@ class CustomButton extends StatelessWidget {
     this.isLoading = false,
     this.isEnabled = true,
     this.loadingWidget,
+    this.loadingBackgroundColor,
+    this.loadingForegroundColor,
+    this.disabledBackgroundColor,
+    this.disabledForegroundColor,
   }) : assert(height >= 0, 'height must be greater than or equal to zero.'),
        assert(radius >= 0, 'radius must be greater than or equal to zero.'),
        assert(
@@ -85,20 +91,23 @@ class CustomButton extends StatelessWidget {
 
   /// Background color while the button is enabled.
   ///
-  /// Defaults to [ColorScheme.primary]. While disabled the Material disabled
-  /// container color is used instead.
+  /// Defaults to [ColorScheme.primary], and stays in place while the button is
+  /// loading unless [loadingBackgroundColor] is given. While disabled
+  /// [disabledBackgroundColor] is used instead.
   final Color? backgroundColor;
 
   /// Default color for the text and icons in the content slots.
   ///
-  /// Defaults to [ColorScheme.onPrimary]. While disabled the Material disabled
-  /// content color is used instead.
+  /// Defaults to [ColorScheme.onPrimary], and stays in place while the button
+  /// is loading unless [loadingForegroundColor] is given. While disabled
+  /// [disabledForegroundColor] is used instead.
   final Color? foregroundColor;
 
   /// Style applied to the text in the content slots.
   ///
   /// Defaults to [TextTheme.labelLarge]. A color set here wins over
-  /// [foregroundColor] while the button is enabled.
+  /// [foregroundColor], except while the button is disabled or loading, where
+  /// the state's own foreground color applies.
   final TextStyle? textStyle;
 
   /// Corner radius of the button. Defaults to `12`.
@@ -154,22 +163,61 @@ class CustomButton extends StatelessWidget {
   /// resolved foreground color.
   final Widget? loadingWidget;
 
+  /// Background color while [isLoading] is `true`.
+  ///
+  /// Defaults to [backgroundColor], so the button keeps its colour while it
+  /// works. Ignored while [isEnabled] is `false` or [onTap] is `null`, which
+  /// always paint as disabled.
+  final Color? loadingBackgroundColor;
+
+  /// Color of the progress indicator, and of the text and icons in
+  /// [loadingWidget], while [isLoading] is `true`.
+  ///
+  /// Defaults to [foregroundColor]. Ignored while [isEnabled] is `false` or
+  /// [onTap] is `null`.
+  final Color? loadingForegroundColor;
+
+  /// Background color while the button is disabled.
+  ///
+  /// Defaults to [ColorScheme.onSurface] at 12% opacity, the Material disabled
+  /// container color.
+  final Color? disabledBackgroundColor;
+
+  /// Color for the text and icons in the content slots while the button is
+  /// disabled.
+  ///
+  /// Defaults to [ColorScheme.onSurface] at 38% opacity, the Material disabled
+  /// content color.
+  final Color? disabledForegroundColor;
+
   /// Whether the button currently responds to taps.
+  ///
+  /// Loading suppresses taps without changing how the button looks; use
+  /// [_showsDisabledColors] for the visual state.
   bool get _isInteractive => isEnabled && !isLoading && onTap != null;
+
+  /// Whether the button paints itself with the disabled colors.
+  bool get _showsDisabledColors => !isEnabled || onTap == null;
 
   @override
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
     final ColorScheme colors = theme.colorScheme;
     final bool interactive = _isInteractive;
+    final bool disabled = _showsDisabledColors;
 
-    // Material's disabled container and content opacities.
-    final Color effectiveBackground = interactive
-        ? (backgroundColor ?? colors.primary)
-        : colors.onSurface.withValues(alpha: 0.12);
-    final Color effectiveForeground = interactive
-        ? (foregroundColor ?? colors.onPrimary)
-        : colors.onSurface.withValues(alpha: 0.38);
+    // Loading suppresses taps but keeps the button's own colors, so only a
+    // genuinely disabled button drops to the disabled palette.
+    final Color effectiveBackground = disabled
+        ? (disabledBackgroundColor ?? colors.onSurface.withValues(alpha: 0.12))
+        : (isLoading ? loadingBackgroundColor : null) ??
+              backgroundColor ??
+              colors.primary;
+    final Color effectiveForeground = disabled
+        ? (disabledForegroundColor ?? colors.onSurface.withValues(alpha: 0.38))
+        : (isLoading ? loadingForegroundColor : null) ??
+              foregroundColor ??
+              colors.onPrimary;
 
     final BorderRadius borderRadius = BorderRadius.circular(radius);
     final bool hasBorder = borderColor != null || borderWidth != null;
@@ -181,14 +229,14 @@ class CustomButton extends StatelessWidget {
       height: height,
       child: Material(
         color: effectiveBackground,
-        elevation: interactive ? elevation : 0,
+        elevation: disabled ? 0 : elevation,
         shape: RoundedRectangleBorder(
           borderRadius: borderRadius,
           side: hasBorder
               ? BorderSide(
-                  color: interactive
-                      ? (borderColor ?? colors.primary)
-                      : colors.onSurface.withValues(alpha: 0.12),
+                  color: disabled
+                      ? colors.onSurface.withValues(alpha: 0.12)
+                      : (borderColor ?? colors.primary),
                   width: borderWidth ?? 1,
                 )
               : BorderSide.none,
@@ -223,8 +271,12 @@ class CustomButton extends StatelessWidget {
     final TextStyle baseStyle =
         (theme.textTheme.labelLarge ?? const TextStyle()).merge(textStyle);
     // [TextTheme.labelLarge] already carries a color, so only a color the
-    // caller set on [textStyle] counts as explicit — and never while disabled.
-    final Color? explicitColor = _isInteractive ? textStyle?.color : null;
+    // caller set on [textStyle] counts as explicit. The disabled state, and a
+    // loading state with its own foreground, resolve their color instead.
+    final Color? explicitColor =
+        _showsDisabledColors || (isLoading && loadingForegroundColor != null)
+        ? null
+        : textStyle?.color;
 
     return IconTheme.merge(
       data: IconThemeData(color: foreground),
