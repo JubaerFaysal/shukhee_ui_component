@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-class PriceViewWidget extends StatelessWidget {
+class PriceViewWidgets extends StatelessWidget {
   /// Creates a price line.
   ///
   /// The [spacing] and [suffixSpacing] must be greater than or equal to zero,
   /// and [maxLines] must be greater than zero.
-  const PriceViewWidget({
+  const PriceViewWidgets({
     super.key,
     required this.price,
     required this.priceTextStyle,

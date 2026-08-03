@@ -9,7 +9,7 @@ void main() {
   );
 
   /// Wraps [widget] in a minimal app.
-  Widget wrap(PriceViewWidget widget) {
+  Widget wrap(PriceViewWidgets widget) {
     return MaterialApp(
       home: Scaffold(body: Center(child: widget)),
     );
@@ -46,11 +46,11 @@ void main() {
       WidgetTester tester,
     ) async {
       await tester.pumpWidget(
-        wrap(const PriceViewWidget(price: '1250', priceTextStyle: priceStyle)),
+        wrap(const PriceViewWidgets(price: '1250', priceTextStyle: priceStyle)),
       );
 
       expect(textSpansOf(tester).map((TextSpan s) => s.text).toList(), <String>[
-        PriceViewWidget.defaultCurrencySymbol,
+        PriceViewWidgets.defaultCurrencySymbol,
         '1250',
       ]);
     });
@@ -58,7 +58,7 @@ void main() {
     testWidgets('renders every part in order', (WidgetTester tester) async {
       await tester.pumpWidget(
         wrap(
-          const PriceViewWidget(
+          const PriceViewWidgets(
             price: '1250',
             priceTextStyle: priceStyle,
             currencySymbol: r'$',
@@ -81,7 +81,7 @@ void main() {
     ) async {
       await tester.pumpWidget(
         wrap(
-          const PriceViewWidget(
+          const PriceViewWidgets(
             price: '1250',
             priceTextStyle: priceStyle,
             currencySymbol: null,
@@ -101,7 +101,7 @@ void main() {
     ) async {
       await tester.pumpWidget(
         wrap(
-          const PriceViewWidget(
+          const PriceViewWidgets(
             price: '1250',
             priceTextStyle: priceStyle,
             currencySymbol: null,
@@ -117,7 +117,7 @@ void main() {
     ) async {
       await tester.pumpWidget(
         wrap(
-          const PriceViewWidget(
+          const PriceViewWidgets(
             price: '1250',
             priceTextStyle: priceStyle,
             spacing: 4,
@@ -135,7 +135,7 @@ void main() {
     ) async {
       await tester.pumpWidget(
         wrap(
-          const PriceViewWidget(
+          const PriceViewWidgets(
             price: '1250',
             priceTextStyle: priceStyle,
             prefixText: '1500',
@@ -156,7 +156,7 @@ void main() {
     ) async {
       await tester.pumpWidget(
         wrap(
-          PriceViewWidget(
+          PriceViewWidgets(
             price: '1250',
             priceTextStyle: priceStyle,
             prefixText: '1500',
@@ -168,7 +168,7 @@ void main() {
 
       expect(textSpansOf(tester).map((TextSpan s) => s.text).toList(), <String>[
         '<1500>',
-        PriceViewWidget.defaultCurrencySymbol,
+        PriceViewWidgets.defaultCurrencySymbol,
         '<1250>',
         '/kg',
       ]);
@@ -187,7 +187,7 @@ void main() {
 
       await tester.pumpWidget(
         wrap(
-          PriceViewWidget(
+          PriceViewWidgets(
             price: '1250',
             priceTextStyle: priceStyle,
             formatter: convert,
@@ -203,7 +203,7 @@ void main() {
     ) async {
       await tester.pumpWidget(
         wrap(
-          PriceViewWidget(
+          PriceViewWidgets(
             price: '1250',
             priceTextStyle: priceStyle,
             formatter: (String value) => null,
@@ -218,7 +218,7 @@ void main() {
       WidgetTester tester,
     ) async {
       await tester.pumpWidget(
-        wrap(const PriceViewWidget(price: '1250', priceTextStyle: priceStyle)),
+        wrap(const PriceViewWidgets(price: '1250', priceTextStyle: priceStyle)),
       );
 
       expect(textSpansOf(tester).last.text, '1250');
@@ -231,7 +231,7 @@ void main() {
     ) async {
       await tester.pumpWidget(
         wrap(
-          const PriceViewWidget(
+          const PriceViewWidgets(
             price: '1250',
             priceTextStyle: priceStyle,
             prefixText: '1500',
@@ -253,7 +253,7 @@ void main() {
     ) async {
       await tester.pumpWidget(
         wrap(
-          const PriceViewWidget(
+          const PriceViewWidgets(
             price: '1250',
             priceTextStyle: priceStyle,
             strikeThrough: true,
@@ -273,7 +273,7 @@ void main() {
         decoration: TextDecoration.underline,
       );
       await tester.pumpWidget(
-        wrap(const PriceViewWidget(price: '1250', priceTextStyle: underlined)),
+        wrap(const PriceViewWidgets(price: '1250', priceTextStyle: underlined)),
       );
 
       // A decoration set by the caller survives.
@@ -290,7 +290,7 @@ void main() {
     ) async {
       await tester.pumpWidget(
         wrap(
-          const PriceViewWidget(
+          const PriceViewWidgets(
             price: '1250',
             priceTextStyle: priceStyle,
             prefixText: '1500',
@@ -311,7 +311,7 @@ void main() {
 
       await tester.pumpWidget(
         wrap(
-          const PriceViewWidget(
+          const PriceViewWidgets(
             price: '1250',
             priceTextStyle: priceStyle,
             prefixText: '1500',
@@ -336,7 +336,7 @@ void main() {
       WidgetTester tester,
     ) async {
       await tester.pumpWidget(
-        wrap(const PriceViewWidget(price: '1250', priceTextStyle: priceStyle)),
+        wrap(const PriceViewWidgets(price: '1250', priceTextStyle: priceStyle)),
       );
 
       final RichText richText = tester.widget<RichText>(find.byType(RichText));
@@ -350,7 +350,7 @@ void main() {
     ) async {
       await tester.pumpWidget(
         wrap(
-          const PriceViewWidget(
+          const PriceViewWidgets(
             price: '1250',
             priceTextStyle: priceStyle,
             textAlign: TextAlign.center,
