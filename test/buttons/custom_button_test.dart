@@ -295,6 +295,18 @@ void main() {
       expect(materialOf(tester).color, theme.colorScheme.primary);
     });
 
+    testWidgets('defaults to the default radius', (WidgetTester tester) async {
+      await tester.pumpWidget(
+        wrap(CustomButton(onTap: () {}, centerWidget: const Text('Go'))),
+      );
+
+      expect(CustomButton.defaultRadius, 4);
+      expect(
+        (materialOf(tester).shape! as RoundedRectangleBorder).borderRadius,
+        BorderRadius.circular(CustomButton.defaultRadius),
+      );
+    });
+
     testWidgets('honours a custom background color and radius', (
       WidgetTester tester,
     ) async {

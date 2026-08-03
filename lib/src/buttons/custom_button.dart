@@ -12,7 +12,7 @@ class CustomButton extends StatelessWidget {
     this.backgroundColor,
     this.foregroundColor,
     this.textStyle,
-    this.radius = 12,
+    this.radius = defaultRadius,
     this.borderColor,
     this.borderWidth,
     this.elevation = 2,
@@ -84,7 +84,10 @@ class CustomButton extends StatelessWidget {
   /// the state's own foreground color applies.
   final TextStyle? textStyle;
 
-  /// Corner radius of the button. Defaults to `12`.
+  /// The corner radius used when no [radius] is given.
+  static const double defaultRadius = 4;
+
+  /// Corner radius of the button. Defaults to [defaultRadius].
   final double radius;
 
   /// Color of the border.
