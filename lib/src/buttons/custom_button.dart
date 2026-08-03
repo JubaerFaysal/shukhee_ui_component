@@ -1,27 +1,5 @@
 import 'package:flutter/material.dart';
 
-/// A tappable, themable button built from a prefix, a centre and a suffix slot.
-///
-/// The three content slots are plain widgets, so the button works equally well
-/// as a text button, an icon button or a label with a trailing chevron. Colors,
-/// the radius and the elevation all default to `null`, meaning they resolve
-/// from [ThemeData], so the button follows the ambient light or dark theme
-/// unless it is explicitly overridden.
-///
-/// The button stops responding to taps when [isEnabled] is `false`, when
-/// [isLoading] is `true`, or when [onTap] is `null`. Only the first and the
-/// last of those repaint it with the disabled colors — a loading button keeps
-/// its own colors unless [loadingBackgroundColor] or [loadingForegroundColor]
-/// is given.
-///
-/// ```dart
-/// CustomButton(
-///   onTap: _submit,
-///   centerWidget: const Text('Continue'),
-///   suffixWidget: const Icon(Icons.arrow_forward),
-///   isLoading: _busy,
-/// )
-/// ```
 class CustomButton extends StatelessWidget {
   /// Creates a button.
   ///

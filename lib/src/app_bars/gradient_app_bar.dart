@@ -1,30 +1,5 @@
 import 'package:flutter/material.dart';
 
-/// A themable [AppBar] replacement that can paint a [Gradient] background.
-///
-/// [GradientAppBar] keeps the behaviour and layout of the Material [AppBar]
-/// (leading, title, actions, [bottom], elevation, shape) while allowing the
-/// background to be a gradient instead of a flat color.
-///
-/// Every visual property defaults to `null`, which means the value is resolved
-/// from [AppBarTheme] / [ThemeData], so the app bar follows the ambient light
-/// or dark theme unless it is explicitly overridden.
-///
-/// ```dart
-/// Scaffold(
-///   appBar: GradientAppBar(
-///     title: 'Dashboard',
-///     showBackButton: true,
-///     gradient: const LinearGradient(
-///       colors: <Color>[Color(0xFF6A11CB), Color(0xFF2575FC)],
-///     ),
-///     actions: <Widget>[
-///       IconButton(icon: const Icon(Icons.search), onPressed: () {}),
-///     ],
-///   ),
-///   body: const SizedBox.shrink(),
-/// )
-/// ```
 class GradientAppBar extends StatelessWidget implements PreferredSizeWidget {
   /// Creates a gradient capable app bar.
   ///
