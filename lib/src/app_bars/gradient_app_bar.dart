@@ -131,8 +131,6 @@ class GradientAppBar extends StatelessWidget implements PreferredSizeWidget {
       leading: _buildLeading(context),
       automaticallyImplyLeading: false,
       actions: actions,
-      // The gradient is painted by [flexibleSpace], so the material behind it
-      // must not paint a competing color.
       backgroundColor: hasGradient ? Colors.transparent : backgroundColor,
       flexibleSpace: _buildGradientBackground(),
       foregroundColor: foregroundColor,
@@ -180,15 +178,10 @@ class GradientAppBar extends StatelessWidget implements PreferredSizeWidget {
     if (gradient == null) {
       return null;
     }
-    // [AppBar] stacks [flexibleSpace] with [StackFit.passthrough] and the
-    // [Scaffold] hands it loose height constraints, so a childless
-    // [DecoratedBox] would collapse to zero height and paint nothing. The
-    // expansion makes it fill the whole app bar, status bar padding included.
+
     final Widget background = SizedBox.expand(
       child: DecoratedBox(decoration: BoxDecoration(gradient: gradient)),
     );
-    // [AppBar]'s material does not clip [flexibleSpace], so the gradient is
-    // clipped here to keep it inside a custom [shape].
     if (shape == null) {
       return background;
     }

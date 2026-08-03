@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
 
 class PriceViewWidgets extends StatelessWidget {
-  /// Creates a price line.
-  ///
-  /// The [spacing] and [suffixSpacing] must be greater than or equal to zero,
-  /// and [maxLines] must be greater than zero.
   const PriceViewWidgets({
     super.key,
     required this.price,
@@ -93,17 +89,9 @@ class PriceViewWidgets extends StatelessWidget {
   final TextOverflow overflow;
 
   /// Transforms [price] and [prefixText] before they are rendered.
-  ///
   /// Use it to localise digits or to group thousands. The widget itself never
   /// reformats the values, and a `null` result leaves the value as it was, so
   /// an app-side converter can be passed straight in:
-  ///
-  /// ```dart
-  /// formatter: AppServices.convertToBanglaFormatter,
-  /// ```
-  ///
-  /// The nullable parameter and return type make the widget accept converters
-  /// declared as `String? Function(String?)`, which is the common shape.
   final String? Function(String value)? formatter;
 
   @override
@@ -116,7 +104,6 @@ class PriceViewWidgets extends StatelessWidget {
     );
   }
 
-  /// Returns the spans for the parts that have content, gap-separated.
   List<InlineSpan> _buildSpans() {
     final List<InlineSpan> spans = <InlineSpan>[];
 
@@ -145,8 +132,6 @@ class PriceViewWidgets extends StatelessWidget {
     return formatter?.call(value) ?? value;
   }
 
-  /// Applies the strike-through, leaving any decoration in [style] untouched
-  /// when [strikeThrough] is `false`.
   TextStyle _struck(TextStyle style) {
     if (!strikeThrough) {
       return style;

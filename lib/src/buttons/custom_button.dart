@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
 
 class CustomButton extends StatelessWidget {
-  /// Creates a button.
-  ///
-  /// The [height], [radius], [elevation] and [spacing] must be greater than or
-  /// equal to zero.
   const CustomButton({
     super.key,
     required this.onTap,
@@ -200,8 +196,6 @@ class CustomButton extends StatelessWidget {
     final BorderRadius borderRadius = BorderRadius.circular(radius);
     final bool hasBorder = borderColor != null || borderWidth != null;
 
-    // The size wraps the material rather than sitting inside it, so the whole
-    // button — border and elevation included — is the requested size.
     Widget button = SizedBox(
       width: width ?? double.infinity,
       height: height,
@@ -239,18 +233,12 @@ class CustomButton extends StatelessWidget {
     if (margin != null) {
       button = Padding(padding: margin!, child: button);
     }
-
-    // InkWell only reports button semantics while it is tappable, so the
-    // disabled state is announced here instead.
     return Semantics(button: true, enabled: interactive, child: button);
   }
 
   Widget _buildContent(ThemeData theme, Color foreground) {
     final TextStyle baseStyle =
         (theme.textTheme.labelLarge ?? const TextStyle()).merge(textStyle);
-    // [TextTheme.labelLarge] already carries a color, so only a color the
-    // caller set on [textStyle] counts as explicit. The disabled state, and a
-    // loading state with its own foreground, resolve their color instead.
     final Color? explicitColor =
         _showsDisabledColors || (isLoading && loadingForegroundColor != null)
         ? null
@@ -271,7 +259,6 @@ class CustomButton extends StatelessWidget {
     );
   }
 
-  /// Returns the non-null content slots, separated by [spacing].
   List<Widget> _buildSlots() {
     final List<Widget> slots = <Widget>[
       if (prefixWidget != null) prefixWidget!,
