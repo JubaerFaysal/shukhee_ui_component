@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../theme/ui_tokens.dart';
+
 class CustomButton extends StatelessWidget {
   const CustomButton({
     super.key,
@@ -85,7 +87,7 @@ class CustomButton extends StatelessWidget {
   final TextStyle? textStyle;
 
   /// The corner radius used when no [radius] is given.
-  static const double defaultRadius = 4;
+  static const double defaultRadius = UiTokens.defaultRadius;
 
   /// Corner radius of the button. Defaults to [defaultRadius].
   final double radius;

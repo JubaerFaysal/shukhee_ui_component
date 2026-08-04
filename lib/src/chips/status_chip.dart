@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../theme/ui_tokens.dart';
+
 class StatusChip extends StatelessWidget {
   const StatusChip({
     super.key,
@@ -23,56 +25,18 @@ class StatusChip extends StatelessWidget {
        ),
        assert(radius >= 0, 'radius must be greater than or equal to zero.');
 
-  /// The brand color, used when no [color] is given.
-  static const Color defaultColor = Color(0xFF00AAD0);
+  static const Color defaultColor = UiTokens.accentColor;
+  static const double defaultRadius = UiTokens.defaultRadius;
 
-  /// The corner radius used when no [radius] is given.
-  static const double defaultRadius = 4;
-
-  /// The label.
-  ///
-  /// [placeholder] is rendered when this is `null` or empty.
   final String? status;
-
-  /// Rendered in place of a missing [status]. Defaults to `'N/A'`.
   final String placeholder;
-
-  /// Accent color of the chip.
-  ///
-  /// Colors the label and the border, and the background at
-  /// [backgroundOpacity]. Defaults to [defaultColor]. Use [backgroundColor] or
-  /// [borderColor] to override a single surface.
   final Color color;
-
-  /// Background color of the chip.
-  ///
-  /// Defaults to [color] at [backgroundOpacity].
   final Color? backgroundColor;
-
-  /// Opacity of [color] when it is used as the background.
-  /// Defaults to `0.2`.
-  ///
-  /// Ignored when [backgroundColor] is given.
   final double backgroundOpacity;
-
-  /// Color of the border. Defaults to [color] at full strength.
   final Color? borderColor;
-
-  /// Width of the border. Defaults to `0.5`; zero draws no border.
   final double borderWidth;
-
-  /// Corner radius of the chip. Defaults to [defaultRadius].
   final double radius;
-
-  /// Space between the border and the label.
-  ///
-  /// Defaults to 8 logical pixels horizontally and 4 vertically.
   final EdgeInsetsGeometry? padding;
-
-  /// Style of the label.
-  ///
-  /// Merged over [TextTheme.labelLarge] in semi-bold, so setting only a size
-  /// or a weight keeps [color] as the label color.
   final TextStyle? textStyle;
 
   @override
