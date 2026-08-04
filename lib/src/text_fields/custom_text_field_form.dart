@@ -65,7 +65,7 @@ class CustomTextFieldForm extends StatelessWidget {
          'borderRadius must be greater than or equal to zero.',
        );
 
-  static const double defaultRadius = UiTokens.largeRadius;
+  static const double defaultRadius = UiTokens.defaultRadius;
 
   final TextEditingController? textController;
 
