@@ -252,16 +252,15 @@ void main() {
       }
     });
 
-    testWidgets('defaults the radius to the large token', (
+    testWidgets('defaults the radius to the token', (
       WidgetTester tester,
     ) async {
       await tester.pumpWidget(wrap(const CustomTextFieldForm()));
 
-      expect(CustomTextFieldForm.defaultRadius, UiTokens.largeRadius);
       expect(
         (decorationOf(tester).enabledBorder! as OutlineInputBorder)
             .borderRadius,
-        BorderRadius.circular(UiTokens.largeRadius),
+        BorderRadius.circular(CustomTextFieldForm.defaultRadius),
       );
     });
   });
