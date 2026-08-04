@@ -260,6 +260,28 @@ void main() {
       expect(decoration.borderRadius, BorderRadius.circular(24));
     });
 
+    testWidgets('puts exactly one gap beside the leading widget', (
+      WidgetTester tester,
+    ) async {
+      await tester.pumpWidget(
+        wrap(
+          const CustomSearchBar(
+            hintText: 'Search',
+            spacing: 20,
+            leading: Icon(Icons.arrow_back, key: Key('leading')),
+          ),
+        ),
+      );
+
+      final double leadingRight = tester
+          .getRect(find.byKey(const Key('leading')))
+          .right;
+      final double fieldLeft = tester.getRect(find.byType(TextField)).left;
+      // Row.spacing already separates the children; a SizedBox as well would
+      // make this 40.
+      expect(fieldLeft - leadingRight, 20);
+    });
+
     testWidgets('renders the leading widget', (WidgetTester tester) async {
       await tester.pumpWidget(
         wrap(

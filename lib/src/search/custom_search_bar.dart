@@ -120,9 +120,11 @@ class CustomSearchBar extends StatelessWidget {
         ),
       ),
       child: Row(
+        // Row inserts the gap between children itself, so no SizedBox here —
+        // adding one would double the gap beside a leading widget.
         spacing: spacing,
         children: <Widget>[
-          if (leading != null) ...<Widget>[leading!, SizedBox(width: spacing)],
+          if (leading != null) leading!,
           Expanded(
             child: TextFormField(
               controller: textEditingController,
