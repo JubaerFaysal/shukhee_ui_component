@@ -82,14 +82,6 @@ class CustomDialog extends StatelessWidget {
   final bool isPositiveButtonLoading;
   final bool isPositiveButtonEnabled;
   final bool scrollable;
-  /// The single color that themes the dialog.
-  ///
-  /// It colors the title, the background of the positive button, the text of
-  /// the negative button, and the border of both buttons. Set it once to make
-  /// the dialog match your brand, or override any one of those parts with its
-  /// own color property.
-  ///
-  /// Defaults to [UiTokens.accentColor].
   final Color? themeColor;
   final Color? backgroundColor;
   final double borderRadius;
