@@ -714,13 +714,13 @@ whole dialog content scrolls instead of overflowing.
 
 ### Colors
 
-`accentColor` is the single color that themes the dialog — the title, the
+`themeColor` is the single color that themes the dialog — the title, the
 positive button's background, the negative button's text, and both button
 borders. Set it once and the dialog matches your brand:
 
 ```dart
 CustomDialog(
-  accentColor: Colors.deepPurple,
+  themeColor: Colors.deepPurple,
   title: 'Subscribe',
   infoText: 'Unlock all features for a month.',
   positiveAction: _subscribe,
@@ -775,26 +775,26 @@ CustomDialog(
 
 | Property | Type | Default | Description |
 | --- | --- | --- | --- |
-| `accentColor` | `Color?` | brand accent | Themes the title, positive button and button borders. |
+| `themeColor` | `Color?` | brand color | Themes the title, positive button and button borders. |
 | `backgroundColor` | `Color?` | `DialogTheme.backgroundColor` → `ColorScheme.surface` | Dialog background. |
 | `borderRadius` | `double` | `defaultRadius` (20) | Corner radius of the dialog. Must be `>= 0`. |
 | `elevation` | `double?` | theme default | Shadow depth. Must be `>= 0` when set. |
 | `padding` | `EdgeInsetsGeometry?` | `16` horizontal, `24` vertical | Space inside the dialog. |
 | `insetPadding` | `EdgeInsets?` | `40` horizontal, `24` vertical | Space between the dialog and the screen edges. |
-| `titleStyle` | `TextStyle?` | semi-bold `bodyMedium` in the accent color | Style of the title. |
+| `titleStyle` | `TextStyle?` | semi-bold `bodyMedium` in the theme color | Style of the title. |
 | `infoTextStyle` | `TextStyle?` | `TextTheme.bodySmall` | Style of the message. |
 
 **Buttons**
 
 | Property | Type | Default | Description |
 | --- | --- | --- | --- |
-| `positiveButtonColor` | `Color?` | `accentColor` | Background of the positive button. |
+| `positiveButtonColor` | `Color?` | `themeColor` | Background of the positive button. |
 | `positiveButtonTextColor` | `Color?` | `ColorScheme.onPrimary` | Text color of the positive button. |
 | `positiveButtonTextStyle` | `TextStyle?` | `bodySmall` in the text color | Text style of the positive button. |
 | `negativeButtonColor` | `Color?` | dialog background | Background of the negative button. |
-| `negativeButtonTextColor` | `Color?` | `accentColor` | Text color of the negative button. |
+| `negativeButtonTextColor` | `Color?` | `themeColor` | Text color of the negative button. |
 | `negativeButtonTextStyle` | `TextStyle?` | `bodySmall` in the text color | Text style of the negative button. |
-| `buttonBorderColor` | `Color?` | `accentColor` | Border color of both buttons. |
+| `buttonBorderColor` | `Color?` | `themeColor` | Border color of both buttons. |
 | `buttonBorderRadius` | `double` | `4` | Corner radius of both buttons. Must be `>= 0`. |
 | `buttonPadding` | `EdgeInsetsGeometry?` | `8` on all sides | Space inside each button. |
 | `buttonHeight` | `double` | `48` | Height of both buttons. Must be `>= 0`. |
@@ -828,7 +828,7 @@ All spacing values must be `>= 0`.
   default.
 - **`canClose` blocks the back button too**, not just taps outside. A dialog left
   at the default `false` must be answered with a button.
-- **One accent color themes the whole dialog.** Reach for the individual color
+- **One `themeColor` themes the whole dialog.** Reach for the individual color
   properties only when you want to break that link.
 - **Only two things are required** — `infoText` and `positiveAction`. Everything
   else already has a default.

@@ -19,7 +19,7 @@ class CustomDialog extends StatelessWidget {
     this.isPositiveButtonLoading = false,
     this.isPositiveButtonEnabled = true,
     this.scrollable = false,
-    this.accentColor,
+    this.themeColor,
     this.backgroundColor,
     this.borderRadius = defaultRadius,
     this.elevation,
@@ -82,7 +82,15 @@ class CustomDialog extends StatelessWidget {
   final bool isPositiveButtonLoading;
   final bool isPositiveButtonEnabled;
   final bool scrollable;
-  final Color? accentColor;
+  /// The single color that themes the dialog.
+  ///
+  /// It colors the title, the background of the positive button, the text of
+  /// the negative button, and the border of both buttons. Set it once to make
+  /// the dialog match your brand, or override any one of those parts with its
+  /// own color property.
+  ///
+  /// Defaults to [UiTokens.accentColor].
+  final Color? themeColor;
   final Color? backgroundColor;
   final double borderRadius;
   final double? elevation;
@@ -126,7 +134,7 @@ class CustomDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
-    final Color accent = accentColor ?? UiTokens.accentColor;
+    final Color effectiveThemeColor = themeColor ?? UiTokens.accentColor;
     final Color surface =
         backgroundColor ??
         theme.dialogTheme.backgroundColor ??
@@ -143,7 +151,7 @@ class CustomDialog extends StatelessWidget {
               titleStyle ??
               theme.textTheme.bodyMedium?.copyWith(
                 fontWeight: FontWeight.w600,
-                color: accent,
+                color: effectiveThemeColor,
               ),
           textAlign: TextAlign.center,
         ),
@@ -155,7 +163,7 @@ class CustomDialog extends StatelessWidget {
         ),
         SizedBox(height: spaceUnderInfoText),
         if (body != null) ...<Widget>[body!, SizedBox(height: spaceUnderBody)],
-        _buildButtons(context, theme, accent, surface),
+        _buildButtons(context, theme, effectiveThemeColor, surface),
       ],
     );
 
@@ -184,13 +192,14 @@ class CustomDialog extends StatelessWidget {
   Widget _buildButtons(
     BuildContext context,
     ThemeData theme,
-    Color accent,
+    Color effectiveThemeColor,
     Color surface,
   ) {
     final Color positiveTextColor =
         positiveButtonTextColor ?? theme.colorScheme.onPrimary;
-    final Color negativeTextColor = negativeButtonTextColor ?? accent;
-    final Color borderColor = buttonBorderColor ?? accent;
+    final Color negativeTextColor =
+        negativeButtonTextColor ?? effectiveThemeColor;
+    final Color borderColor = buttonBorderColor ?? effectiveThemeColor;
     final EdgeInsetsGeometry labelPadding =
         buttonPadding ?? const EdgeInsets.all(8);
     final TextStyle? labelStyle = theme.textTheme.bodySmall;
@@ -199,7 +208,7 @@ class CustomDialog extends StatelessWidget {
       onTap: positiveAction,
       isEnabled: isPositiveButtonEnabled,
       isLoading: isPositiveButtonLoading,
-      backgroundColor: positiveButtonColor ?? accent,
+      backgroundColor: positiveButtonColor ?? effectiveThemeColor,
       foregroundColor: positiveTextColor,
       borderColor: borderColor,
       radius: buttonBorderRadius,

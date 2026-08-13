@@ -281,7 +281,7 @@ void main() {
   });
 
   group('styling', () {
-    testWidgets('paints the title in the accent color', (
+    testWidgets('paints the title in the theme color', (
       WidgetTester tester,
     ) async {
       await tester.pumpWidget(
@@ -289,7 +289,7 @@ void main() {
           CustomDialog(
             title: 'Alert',
             infoText: 'Sure?',
-            accentColor: const Color(0xFF112233),
+            themeColor: const Color(0xFF112233),
             positiveAction: () {},
           ),
         ),
