@@ -1,7 +1,7 @@
 # shukhee_ui_component
 
-[![pub package](https://img.shields.io/pub/v/shukhee_ui_component.svg)](https://pub.dev/packages/shukhee_ui_component)
-[![platforms](https://img.shields.io/badge/platforms-android%20%7C%20ios%20%7C%20web%20%7C%20macos%20%7C%20windows%20%7C%20linux-blue.svg)](https://pub.dev/packages/shukhee_ui_component)
+![platforms](https://img.shields.io/badge/platforms-android%20%7C%20ios%20%7C%20web%20%7C%20macos%20%7C%20windows%20%7C%20linux-blue.svg)
+![status](https://img.shields.io/badge/status-not%20yet%20on%20pub.dev-orange.svg)
 
 A collection of ready-to-use Flutter widgets — app bar, button, dialog, text
 field, search bar, chip, price label and pull-to-refresh — that keep your app's
@@ -45,12 +45,21 @@ supports.
 
 Requires Dart SDK `^3.9.2` and Flutter `>=1.17.0`.
 
-Add the package to your `pubspec.yaml`:
+This package is not on pub.dev yet, so add it as a Git dependency in your
+`pubspec.yaml`. Pin `ref` to a commit so your builds stay reproducible:
 
 ```yaml
 dependencies:
-  shukhee_ui_component: ^0.0.1
+  shukhee_ui_component:
+    git:
+      url: https://github.com/JubaerFaysal/shukhee_ui_component.git
+      ref: 502ae4bed27fe964b7c5019d19db9622ad9486f7
 ```
+
+To pick up new work, change `ref` to a newer commit and run
+`flutter pub upgrade shukhee_ui_component`. You can also use `ref: main` to
+track the branch, but then a `pubspec.lock` is the only thing keeping your
+builds stable.
 
 Install it:
 
